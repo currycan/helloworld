@@ -48,9 +48,6 @@ go get
 go get github.com/ztino/jd_seckill
 ```
 
-## 待办
-- 跨平台桌面端支持，打算使用：https://github.com/therecipe/qt
-
 ## 使用
 
 > [下载](https://github.com/ztino/jd_seckill/releases) 对应平台的可执行文件，解压，终端进入该目录。
@@ -64,8 +61,6 @@ jd_seckill login
 ### 自动获取eid,fp
 
 > ⚠依赖谷歌浏览器，请安装谷歌浏览器，windows下请将安装目录加入系统变量Path
-
-> ⚠ 京东可能在修改eid和fp的获取方式了，目前该功能获取不太稳定，请勿依赖该功能，目前观望中，不做更改
 
 执行以下命令按照提示操作:
 ```shell
@@ -163,12 +158,19 @@ docker-compose build
 ```
 (2) 运行
 修改 conf.ini 配置文件后，直接运行 TODO: 暂不知环境变量
+Tips:
+- **需要手工获取`eid`和`fp`**，并修改配置文件
+- 首次运行无法挂载
 ```shell
 docker-compose up -d
 ```
 随后界面上会打印二维码，扫描登陆完成即可：
 ```shell
 docker-compose logs -f
+```
+(3)预约
+```shell
+docker-compose exec hellworld reserve
 ```
 
 ## 感谢

@@ -35,6 +35,10 @@ services:
       - JD_SECKILL_DTALK_TOKEN=""
       - JD_SECKILL_DTALK_SECRET=""
     volumes:
+      - cookie:/app/cookie.txt:rw
+      - ./conf.my.ini:/app/conf.ini:rw
       - ./logs:/app/logs
-      - ./conf.ini:/app/conf.ini:rw
     network_mode: host
+
+volumes:
+  cookie:

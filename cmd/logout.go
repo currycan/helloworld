@@ -18,10 +18,10 @@ var logoutCmd = &cobra.Command{
 }
 
 func startLogout(cmd *cobra.Command, args []string)  {
-	if common.Exists("./cookie.txt") {
-		_=os.Remove("./cookie.txt")
+	if common.Exists(common.SoftDir+"/cookie.txt") {
+		_=os.Remove(common.SoftDir+"/cookie.txt")
 		log.Println("退出成功")
 	}else{
-		log.Println("退出失败，未登录")
+		log.Error("退出失败，未登录")
 	}
 }
