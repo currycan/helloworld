@@ -3,13 +3,6 @@ package jd_seckill
 import (
 	"errors"
 	"fmt"
-	"github.com/Albert-Zhan/httpc"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/tidwall/gjson"
-	"github.com/unknwon/goconfig"
-	"github.com/ztino/jd_seckill/common"
-	"github.com/ztino/jd_seckill/log"
-	"github.com/ztino/jd_seckill/service"
 	"net/http"
 	"net/url"
 	"os"
@@ -17,20 +10,29 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/Albert-Zhan/httpc"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/tidwall/gjson"
+	"github.com/unknwon/goconfig"
+
+	"github.com/currycan/helloworld/common"
+	"github.com/currycan/helloworld/log"
+	"github.com/currycan/helloworld/service"
 )
 
 type Seckill struct {
-	client *httpc.HttpClient
-	conf   *goconfig.ConfigFile
+	client   *httpc.HttpClient
+	conf     *goconfig.ConfigFile
 	initInfo string
 }
 
 func NewSeckill(client *httpc.HttpClient, conf *goconfig.ConfigFile) *Seckill {
-	return &Seckill{client: client, conf: conf,initInfo: ""}
+	return &Seckill{client: client, conf: conf, initInfo: ""}
 }
 
 func (this *Seckill) SetInitInfo(initInfo string) {
-	this.initInfo=initInfo
+	this.initInfo = initInfo
 }
 
 func (this *Seckill) GetInitInfo() string {
@@ -177,7 +179,7 @@ func (this *Seckill) MakeReserve() {
 
 		//更新购买时间
 		if len(buyTimeArr) == 2 {
-			confFile := common.SoftDir+"/conf.ini"
+			confFile := common.SoftDir + "/conf.ini"
 			cfg, err := goconfig.LoadConfigFile(confFile)
 			if err != nil {
 				log.Error("配置文件不存在，程序退出")
@@ -211,7 +213,7 @@ func (this *Seckill) getSeckillUrl() (string, error) {
 		log.Error("抢购链接获取失败，稍后自动重试")
 		time.Sleep(300 * time.Millisecond)
 	}
-	url = "https:"+url
+	url = "https:" + url
 	//https://divide.jd.com/user_routing?skuId=8654289&sn=c3f4ececd8461f0e4d7267e96a91e0e0&from=pc
 	url = strings.ReplaceAll(url, "divide", "marathon")
 	//https://marathon.jd.com/captcha.html?skuId=8654289&sn=c3f4ececd8461f0e4d7267e96a91e0e0&from=pc
@@ -233,7 +235,7 @@ func (this *Seckill) RequestSeckillUrl() {
 	url, _ := this.getSeckillUrl()
 	skuId := this.conf.MustValue("config", "sku_id", "")
 	log.Info("访问商品的抢购连接...")
-	client:=httpc.NewHttpClient()
+	client := httpc.NewHttpClient()
 	client.SetCookieJar(common.CookieJar)
 	client.SetRedirect(func(req *http.Request, via []*http.Request) error {
 		return http.ErrUseLastResponse
@@ -249,7 +251,7 @@ func (this *Seckill) SeckillPage() {
 	log.Info("访问抢购订单结算页面...")
 	skuId := this.conf.MustValue("config", "sku_id", "")
 	seckillNum := this.conf.MustValue("config", "seckill_num", "2")
-	client:=httpc.NewHttpClient()
+	client := httpc.NewHttpClient()
 	client.SetCookieJar(common.CookieJar)
 	client.SetRedirect(func(req *http.Request, via []*http.Request) error {
 		return http.ErrUseLastResponse
@@ -273,19 +275,19 @@ func (this *Seckill) SeckillInitInfo() (string, error) {
 	req.SetData("isModifyAddress", "false")
 	req.SetUrl("https://marathon.jd.com/seckillnew/orderService/pc/init.action").SetMethod("post")
 	//尝试获取三次
-	errorCount:=3
-	errorMsg:=""
+	errorCount := 3
+	errorMsg := ""
 	for errorCount > 0 {
 		_, body, _ := req.Send().End()
-		if body!="null" && gjson.Valid(body) {
+		if body != "null" && gjson.Valid(body) {
 			log.Warn("获取秒杀初始化信息成功")
-			return body,nil
-		}else{
-			log.Error("获取秒杀初始化信息失败,返回信息:"+body)
-			errorMsg=body
+			return body, nil
+		} else {
+			log.Error("获取秒杀初始化信息失败,返回信息:" + body)
+			errorMsg = body
 		}
-		errorCount=errorCount-1
-		time.Sleep(300*time.Millisecond)
+		errorCount = errorCount - 1
+		time.Sleep(300 * time.Millisecond)
 	}
 	return "", errors.New(errorMsg)
 }
@@ -297,17 +299,17 @@ func (this *Seckill) SubmitSeckillOrder() bool {
 	seckillNum := this.conf.MustValue("config", "seckill_num", "2")
 	paymentPwd := this.conf.MustValue("account", "payment_pwd", "")
 	//如果提前获取秒杀初始化信息失败，提交订单时自动重试一次
-	if this.initInfo=="" {
+	if this.initInfo == "" {
 		initInfo, _ := this.SeckillInitInfo()
 		this.SetInitInfo(initInfo)
 	}
-	if this.initInfo=="" {
+	if this.initInfo == "" {
 		log.Error(fmt.Sprintf("抢购失败，无法获取生成订单的基本信息，接口返回:【%s】", this.initInfo))
 		return false
 	}
 	address := gjson.Get(this.initInfo, "addressList").Array()
-	if !gjson.Get(this.initInfo, "addressList").Exists() || len(address)<1 {
-		log.Error("抢购失败，返回信息:"+this.initInfo)
+	if !gjson.Get(this.initInfo, "addressList").Exists() || len(address) < 1 {
+		log.Error("抢购失败，返回信息:" + this.initInfo)
 		return false
 	}
 	defaultAddress := address[0]

@@ -3,14 +3,6 @@ package jd_seckill
 import (
 	"errors"
 	"fmt"
-	"github.com/Albert-Zhan/httpc"
-	"github.com/makiuchi-d/gozxing"
-	"github.com/makiuchi-d/gozxing/qrcode"
-	"github.com/tidwall/gjson"
-	"github.com/unknwon/goconfig"
-	"github.com/ztino/jd_seckill/common"
-	"github.com/ztino/jd_seckill/log"
-	"github.com/ztino/jd_seckill/service"
 	"image"
 	"net/http"
 	"net/url"
@@ -20,6 +12,16 @@ import (
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/Albert-Zhan/httpc"
+	"github.com/makiuchi-d/gozxing"
+	"github.com/makiuchi-d/gozxing/qrcode"
+	"github.com/tidwall/gjson"
+	"github.com/unknwon/goconfig"
+
+	"github.com/currycan/helloworld/common"
+	"github.com/currycan/helloworld/log"
+	"github.com/currycan/helloworld/service"
 )
 
 type User struct {

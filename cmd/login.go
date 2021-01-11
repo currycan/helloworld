@@ -1,12 +1,14 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"github.com/ztino/jd_seckill/common"
-	"github.com/ztino/jd_seckill/jd_seckill"
-	"github.com/ztino/jd_seckill/log"
 	"os"
 	"time"
+
+	"github.com/spf13/cobra"
+
+	"github.com/currycan/helloworld/common"
+	"github.com/currycan/helloworld/jd_seckill"
+	"github.com/currycan/helloworld/log"
 )
 
 func init() {

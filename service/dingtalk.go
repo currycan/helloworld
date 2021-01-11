@@ -1,10 +1,12 @@
 package service
 
 import (
+	"regexp"
+
 	"github.com/blinkbean/dingtalk"
 	"github.com/unknwon/goconfig"
-	"github.com/ztino/jd_seckill/log"
-	"regexp"
+
+	"github.com/currycan/helloworld/log"
 )
 
 type Dingtalk struct {

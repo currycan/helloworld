@@ -2,7 +2,7 @@ FROM golang:1.15-alpine as builder
 RUN set -ex; \
   go env -w GO111MODULE=on; \
   go env -w GOPROXY=https://goproxy.io,direct; \
-  go get github.com/currycan/helloword
+  go get github.com/currycan/helloworld
 
 FROM alpine:3.12
 

@@ -1,13 +1,15 @@
 package main
 
 import (
-	"github.com/Albert-Zhan/httpc"
-	"github.com/unknwon/goconfig"
-	"github.com/ztino/jd_seckill/cmd"
-	"github.com/ztino/jd_seckill/common"
-	"github.com/ztino/jd_seckill/log"
 	"os"
 	"runtime"
+
+	"github.com/Albert-Zhan/httpc"
+	"github.com/unknwon/goconfig"
+
+	"github.com/currycan/helloworld/cmd"
+	"github.com/currycan/helloworld/common"
+	"github.com/currycan/helloworld/log"
 )
 
 func init() {

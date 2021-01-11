@@ -2,12 +2,13 @@ package log
 
 import (
 	"fmt"
-	"github.com/natefinch/lumberjack"
-	"github.com/unknwon/goconfig"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
 	"time"
+
+	"github.com/natefinch/lumberjack"
+	"github.com/unknwon/goconfig"
 )
 
 // error logger

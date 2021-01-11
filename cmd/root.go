@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/ztino/jd_seckill/common"
 	"os"
+
+	"github.com/spf13/cobra"
+
+	"github.com/currycan/helloworld/common"
 )
 
 var rootCmd = &cobra.Command{
@@ -12,7 +14,7 @@ var rootCmd = &cobra.Command{
 	Short: "jd_seckill is a Jingdong Moutai seckill script",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			_=cmd.Help()
+			_ = cmd.Help()
 		}
 	},
 }

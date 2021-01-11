@@ -3,12 +3,6 @@ package common
 import (
 	"bytes"
 	"fmt"
-	"github.com/makiuchi-d/gozxing"
-	"github.com/makiuchi-d/gozxing/qrcode"
-	"github.com/ztino/jd_seckill/log"
-	goQrcode "github.com/skip2/go-qrcode"
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
 	"image"
 	"image/color"
 	"io/ioutil"
@@ -18,6 +12,14 @@ import (
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/makiuchi-d/gozxing"
+	"github.com/makiuchi-d/gozxing/qrcode"
+	goQrcode "github.com/skip2/go-qrcode"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
+
+	"github.com/currycan/helloworld/log"
 )
 
 func Rand(min, max int) int {
@@ -128,7 +130,7 @@ func OpenImage(qrPath, qrcodeShowType string) {
 		}
 
 		if cmd != nil {
-			if err := cmd.Start();err == nil{
+			if err := cmd.Start(); err == nil {
 				//TODO:照片查看器的进程ID，扫码后自动关闭；MacOS下获取到进程ID不对
 				ViewQrcodePid = cmd.Process.Pid
 			}
